@@ -1,20 +1,19 @@
 'use strict';
 let button = document.querySelector('.button');
+let hourDisplay = document.querySelector('.hour');
 let minutesDisplay = document.querySelector('.minutes');
 let secondsDisplay = document.querySelector('.seconds');
 let times;
-let intervalId
 let value;
+let intervalId;
 // let seconds = (times % 60); почему-то не срабатывют(
 // let minutes = (times / 60 % 60);
 
 button .onclick = function() {
     value = +(document.getElementsByClassName('input')[0].value);
-    // console.log (value);
+    console.log (value);
     times = value * 60;
-    
     intervalId = setInterval(timer, 1000);
-
     button.style.background = "red";
     button.innerHTML = "wait...";
 }; 
@@ -29,11 +28,13 @@ function timer() {
     } else {
         secondsDisplay.innerHTML = Math.trunc(times % 60);
         minutesDisplay.innerHTML = Math.trunc(times / 60 % 60);
-
+        hourDisplay.innerHTML = Math.trunc(times / 60 / 60 % 60);
         if (Math.trunc(times % 60) < 10) {
             secondsDisplay.innerHTML = '0' + Math.trunc(times % 60);
+        } if (Math.trunc((times / 60 % 60) < 10)) {
+            minutesDisplay.innerHTML = '0' + Math.trunc(times / 60 % 60);
         }
     }
     --times;
-    // console.log(times);
+    console.log(times);
 }
