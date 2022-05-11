@@ -1,40 +1,41 @@
-'use strict';
-let button = document.querySelector('.button');
-let hourDisplay = document.querySelector('.hour');
-let minutesDisplay = document.querySelector('.minutes');
-let secondsDisplay = document.querySelector('.seconds');
-let times;
-let value;
-let intervalId;
-// let seconds = (times % 60); почему-то не срабатывют(
-// let minutes = (times / 60 % 60);
+// 'use strict'; не могу побороть 10 стр.
+const BUTTON = document.querySelector('.button');
 
-button .onclick = function() {
-    value = +(document.getElementsByClassName('input')[0].value);
-    console.log (value);
-    times = value * 60;
-    intervalId = setInterval(timer, 1000);
-    button.style.background = "red";
-    button.innerHTML = "wait...";
-}; 
+function onclick () {
+    const VALUE = +(document.getElementsByClassName('input')[0].value);
+    let times = VALUE * 60;
+    BUTTON.style.background = "red";
+    BUTTON.innerHTML = "wait...";
+    intervalId2 = setInterval(function run() {
+        timer(times);
+        times--;
+    }, 1000);
+    
+}
 
+function timer(times) {
+    let time = times;
+    const seconds = Math.trunc(time % 60); 
+    const minutes = Math.trunc(time / 60 % 60);
+    const hour = Math.trunc(time / 60 / 60 % 60);
+    const HOURDISPLAY = document.querySelector('.hour');
+    const MINUTESDISPLAY = document.querySelector('.minutes');
+    const SECONDSDISPLAY = document.querySelector('.seconds');
 
-
-function timer() {
-    if(times < 0) {
-        clearInterval(intervalId);
+    if(time < 0) {
         alert('Time is out');
-        button.innerHTML = "ta-dah!";
+        BUTTON.innerHTML = "ta-dah!";
+        clearInterval(intervalId2);
     } else {
-        secondsDisplay.innerHTML = Math.trunc(times % 60);
-        minutesDisplay.innerHTML = Math.trunc(times / 60 % 60);
-        hourDisplay.innerHTML = Math.trunc(times / 60 / 60 % 60);
-        if (Math.trunc(times % 60) < 10) {
-            secondsDisplay.innerHTML = '0' + Math.trunc(times % 60);
-        } if (Math.trunc((times / 60 % 60) < 10)) {
-            minutesDisplay.innerHTML = '0' + Math.trunc(times / 60 % 60);
+        SECONDSDISPLAY.innerHTML = seconds;
+        MINUTESDISPLAY.innerHTML = minutes;
+        HOURDISPLAY.innerHTML = hour;
+        if (seconds < 10) {
+            SECONDSDISPLAY.innerHTML = '0' + seconds;
+        } if (minutes < 10) {
+            MINUTESDISPLAY.innerHTML = '0' + minutes;
         }
     }
-    --times;
-    console.log(times);
 }
+
+BUTTON.addEventListener ("click" , onclick);
